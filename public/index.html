@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MajidBridge — مرورگر ابری</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">🌉 <b>MajidBridge</b> <span class="sub">مرورگر ابری شخصی</span></div>
+    <div class="status"><span id="dot" class="dot off"></span><span id="statusText">در حال اتصال…</span></div>
+  </header>
+
+  <nav class="urlbar">
+    <button id="backBtn" title="عقب">▶</button>
+    <button id="fwdBtn" title="جلو">◀</button>
+    <button id="reloadBtn" title="تازه‌سازی">⟳</button>
+    <input id="urlInput" type="text" dir="ltr" placeholder="https://example.com" autocomplete="off" spellcheck="false">
+    <button id="goBtn" class="go">برو</button>
+  </nav>
+
+  <main class="viewer-wrap">
+    <div id="viewer">
+      <img id="screen" alt="صفحه مرورگر ابری" draggable="false">
+      <div id="loading" class="loading hidden"><span class="spinner"></span> در حال بارگذاری…</div>
+
+      <div id="overlay" class="overlay hidden">
+        <div class="card">
+          <h2>🔐 ورود</h2>
+          <p>رمز مرورگر ابری را وارد کن:</p>
+          <input id="passInput" type="password" dir="ltr" placeholder="password" autocomplete="off">
+          <button id="authBtn" class="go">اتصال</button>
+          <p id="authErr" class="err"></p>
+        </div>
+      </div>
+
+      <div id="toast" class="toast hidden"></div>
+    </div>
+  </main>
+
+  <footer class="statusbar">
+    <span id="pageInfo" class="pageinfo" dir="ltr">—</span>
+    <span id="fps" class="fps" dir="ltr">—</span>
+    <div class="quality">
+      <button data-q="low" title="مصرف کم اینترنت">کم‌مصرف</button><button data-q="medium" class="active" title="معمولی">معمولی</button><button data-q="high" title="بهترین کیفیت">باکیفیت</button>
+    </div>
+    <button id="kbdBtn" title="باز کردن کیبورد (موبایل)">⌨️</button>
+    <button id="fsBtn" title="تمام‌صفحه">⛶</button>
+  </footer>
+
+  <!-- ورودی مخفی برای کیبورد موبایل -->
+  <input id="kbd" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"
+         style="position:fixed;bottom:0;left:0;width:10px;height:10px;opacity:0;border:0;padding:0;">
+
+  <script src="app.js"></script>
+</body>
+</html>

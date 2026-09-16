@@ -1,0 +1,13 @@
+services:
+  majidbridge:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      # ⚠️ حتماً عوضش کن! رمز ورود به مرورگر ابری:
+      - PASSWORD=change-me-please
+      - QUALITY=medium
+      - START_URL=https://example.com
+    restart: unless-stopped
+    shm_size: 1gb

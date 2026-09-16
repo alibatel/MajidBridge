@@ -1,0 +1,19 @@
+{
+  "name": "majidbridge",
+  "version": "1.0.0",
+  "description": "Personal cloud browser — Chromium on server, controllable via a web page (no desktop environment needed)",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/e2e.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "playwright": "1.48.0",
+    "ws": "^8.18.0"
+  }
+}
