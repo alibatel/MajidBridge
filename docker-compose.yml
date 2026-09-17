@@ -9,5 +9,15 @@ services:
       - PASSWORD=change-me-please
       - QUALITY=medium
       - START_URL=https://example.com
+      # برای رد شدن از تیک امنیتی Cloudflare این را true کن:
+      - HEADFUL=false
+      # پوشه‌ی پروفایل ماندگار (لاگین‌ها و کوکی‌ها)
+      - PROFILE_DIR=/data/profile
+    volumes:
+      # با این خط، لاگین‌ها بعد از ری‌استارت کانتینر می‌مانند
+      - majidbridge-data:/data
     restart: unless-stopped
     shm_size: 1gb
+
+volumes:
+  majidbridge-data:
