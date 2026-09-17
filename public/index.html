@@ -8,17 +8,106 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">🌉 <b>MajidBridge</b> <span class="sub">مرورگر ابری شخصی</span></div>
-    <div class="status"><span id="dot" class="dot off"></span><span id="statusText">در حال اتصال…</span></div>
+    <div class="brand">🌉 <b>MajidBridge</b> <span class="sub">مرورگر ابری شخصی <b id="vTag">v2</b></span></div>
+    <div class="status">
+      <span id="modeTag" class="mode-tag" title="حالت مرورگر روی سرور">🛡️ stealth</span>
+      <span id="dot" class="dot off"></span><span id="statusText">در حال اتصال…</span>
+    </div>
   </header>
 
   <nav class="urlbar">
     <button id="backBtn" title="عقب">▶</button>
     <button id="fwdBtn" title="جلو">◀</button>
     <button id="reloadBtn" title="تازه‌سازی">⟳</button>
+    <button id="homeBtn" title="صفحه‌ی شروع">🏠</button>
     <input id="urlInput" type="text" dir="ltr" placeholder="https://example.com" autocomplete="off" spellcheck="false">
+    <button id="starBtn" title="افزودن به نشان‌ها">☆</button>
     <button id="goBtn" class="go">برو</button>
   </nav>
+
+  <div class="tabsbar">
+    <button class="tabbtn" data-tab="history" title="تاریخچه">🕘 تاریخچه</button>
+    <button class="tabbtn" data-tab="bookmarks" title="نشان‌ها">⭐ نشان‌ها</button>
+    <button class="tabbtn" data-tab="settings" title="تنظیمات">⚙️ تنظیمات</button>
+    <span class="spacer"></span>
+    <div class="zoomctl" title="زوم صفحه سرور">
+      <button id="zoomOut" title="کوچک‌نمایی">−</button>
+      <span id="zoomVal" dir="ltr">100%</span>
+      <button id="zoomIn" title="بزرگ‌نمایی">+</button>
+      <button id="zoomReset" title="بازنشانی زوم">⟲</button>
+    </div>
+    <button id="copyBtn" title="کپی از سرور به مرورگر تو (Ctrl+C)">📋 کپی</button>
+    <button id="pasteBtn" title="چسباندن از مرورگر تو در سرور (Ctrl+V)">📥 چسباندن</button>
+    <button id="panelClose" class="panel-close hidden" title="بستن">✕</button>
+  </div>
+
+  <section id="panel" class="panel hidden">
+    <div id="panel-history" class="pane hidden">
+      <div class="pane-head">
+        <b>🕘 تاریخچه</b>
+        <button id="clearHistBtn" class="mini">پاک کردن</button>
+      </div>
+      <ul id="histList" class="list"></ul>
+    </div>
+    <div id="panel-bookmarks" class="pane hidden">
+      <div class="pane-head"><b>⭐ نشان‌ها</b></div>
+      <ul id="bmList" class="list"></ul>
+    </div>
+    <div id="panel-settings" class="pane hidden">
+      <div class="pane-head"><b>⚙️ تنظیمات</b></div>
+      <div class="sets">
+        <div class="set-row">
+          <label>کیفیت تصویر</label>
+          <select id="setQuality">
+            <option value="low">کم‌مصرف</option>
+            <option value="medium" selected>معمولی</option>
+            <option value="high">باکیفیت</option>
+          </select>
+        </div>
+        <div class="set-row">
+          <label>وضوح صفحه سرور</label>
+          <select id="setRes">
+            <option value="auto">خودکار (اندازه پنجره من)</option>
+            <option value="1920x1080">1920×1080</option>
+            <option value="1600x900">1600×900</option>
+            <option value="1366x768" selected>1366×768</option>
+            <option value="1280x800">1280×800</option>
+            <option value="1024x768">1024×768</option>
+            <option value="800x600">800×600 (موبایل)</option>
+            <option value="custom">دلخواه…</option>
+          </select>
+        </div>
+        <div class="set-row hidden" id="customResRow">
+          <label>وضوح دلخواه</label>
+          <span dir="ltr">
+            <input id="setW" type="number" min="320" max="3840" value="1280" style="width:80px">
+            ×
+            <input id="setH" type="number" min="240" max="2160" value="800" style="width:80px">
+          </span>
+          <button id="applyResBtn" class="mini">اعمال</button>
+        </div>
+        <div class="set-row">
+          <label>زوم</label>
+          <input id="setZoom" type="range" min="50" max="250" step="10" value="100">
+          <span id="setZoomVal" dir="ltr">100%</span>
+        </div>
+        <div class="set-row">
+          <label>همگام‌سازی کلیپبورد</label>
+          <button id="setClipSync" class="mini toggle on">روشن</button>
+          <span class="hint">Ctrl+C / Ctrl+V دوطرفه</span>
+        </div>
+        <div class="set-row">
+          <label>صفحه‌ی شروع</label>
+          <input id="setStartUrl" type="text" dir="ltr" placeholder="https://example.com" style="flex:1">
+          <button id="saveStartBtn" class="mini">ذخیره</button>
+        </div>
+        <div class="set-row info">
+          <label>وضعیت سرور</label>
+          <span id="srvInfo" class="hint" dir="ltr">—</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <main class="viewer-wrap">
     <div id="viewer">
@@ -41,10 +130,12 @@
 
   <footer class="statusbar">
     <span id="pageInfo" class="pageinfo" dir="ltr">—</span>
+    <span id="clipInfo" class="clipinfo hidden" dir="ltr" title="آخرین متن کلیپبورد">—</span>
     <span id="fps" class="fps" dir="ltr">—</span>
     <div class="quality">
       <button data-q="low" title="مصرف کم اینترنت">کم‌مصرف</button><button data-q="medium" class="active" title="معمولی">معمولی</button><button data-q="high" title="بهترین کیفیت">باکیفیت</button>
     </div>
+    <span id="resInfo" class="fps" dir="ltr" title="وضوح صفحه سرور">—</span>
     <button id="kbdBtn" title="باز کردن کیبورد (موبایل)">⌨️</button>
     <button id="fsBtn" title="تمام‌صفحه">⛶</button>
   </footer>
