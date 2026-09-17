@@ -4,6 +4,9 @@ FROM mcr.microsoft.com/playwright:v1.48.0-jammy
 WORKDIR /app
 
 # Xvfb و فونت‌ها (فارسی/عربی هم پوشش داده شود) — فقط برای حالت HEADFUL لازم است
+# ⚠️ fonts-vazirmatn در repoهای Ubuntu 22.04 (jammy) وجود ندارد و باعث شکست بیلد می‌شد؛
+#    فارسی/عربی با fonts-noto-core (Noto Sans Arabic) پوشش داده می‌شود.
+#    (اگر base image به noble/24.04+ ارتقا یافت، می‌توان fonts-vazirmatn را برگرداند)
 RUN apt-get update && apt-get install -y --no-install-recommends \
       xvfb \
       xauth \
@@ -11,7 +14,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       fonts-liberation \
       fonts-noto-core \
       fonts-noto-color-emoji \
-      fonts-vazirmatn \
       fonts-dejavu \
       libnss3 \
       libatk-bridge2.0-0 \
